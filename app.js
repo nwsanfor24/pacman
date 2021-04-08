@@ -63,5 +63,71 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     createBoard()
 
+    // Create Characters
+    // Draw Pacman onto the board
+    let pacmanCurrentIndex = 490
+    squares[pacmanCurrentIndex].classList.adD('pac-man')
+    // Get the coordinates of Pacman on the grid with the X and Y axis
+    
+    //Move Pacman
+    function movePacman(e) {
+        squares[pacmanCurrentIndex].classList.remove('pac-man')
+        switch(e.keyCode) {
+            case 37:
+                if (
+                    pacmanCurrentIndex % width !== 0 &&
+                    !squares[pacmanCurrentIndex -1].classList.contains('wall') &&
+                    !squares[pacmanCurrentIndex -1].classList.contains('ghost-lair')
+                )
+            pacmanCurrentIndex -= 1
+            if (squares[pacmanCurrentIndex -1] === squares[363]) {
+                pacmanCurrentIndex = 391
+            }
+            break
+            case 38:
+                if (
+                    pacmanCurrentIndex - width >= 0 &&
+                    !squares[pacmanCurrentIndex -width].classList.contains('wall') &&
+                    !squares[pacmanCurrentIndex -width].classList.contains('ghost-lair')
+                )
+            pacmanCurrentIndex -= width
+            break
+            case 39:
+                if (
+                    pacmanCurrentIndex % width < width - 1 &&
+                    !squares[pacmanCurrentIndex +1].classList.contains('walls') &&
+                    !squares[pacmanCurrentIndex +1].classList.contains('ghost-lair')
+                )
+            pacmanCurrentIndex += 1
+            if (squares[pacmanCurrentIndex +1] === squares[392]) {
+                pacmanCurrentIndex = 364
+            }
+            break
+            case 40: 
+                if (
+                    pacmanCurrentIndex + width < width * width &&
+                    !squares[pacmanCurrentIndex +width].classList.contains('wall') &&
+                    !squares[pacmanCurrentIndex +width].classList.contains('ghost-lair')
+                )
+                pacmanCurrentIndex += width
+                break
+        }
+        squares[pacmanCurrentIndex].classList.add('pac-man')
+        pacDotEaten()
+        powerPelletEaten()
+        checkForGameOver()
+        checkForWin()
+    }
+    document.addEventListener('keyup', movePacman)
+
+    // What happens when you eat a pac-dot
+    function pacDotEaten() {
+        if (squares[pacmanCurrentIndex].classList.contains('pac-dot')) {
+            score++
+            scoreDisplay.innerHTML = score
+            squares[pacmanCurrentIndex].classList.remove('pac-dot')
+        }
+    }
+
     
 })
